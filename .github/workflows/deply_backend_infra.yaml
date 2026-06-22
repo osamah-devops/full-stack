@@ -75,7 +75,7 @@ jobs:
             --parameter-overrides \
               Environment=development \
               ECRRepoURL=$IMAGE_URI \
-              CertificateArn=arn:aws:acm:us-east-1:072754096540:certificate/162cfbd9-c998-46fd-a66e-bff328af88f0
+              CertificateArn=arn:aws:acm:us-east-1:072754096540:certificate/82434ae7-ae29-46c0-afe0-97c4c160cbfe
 
       #################################################
       # Wait for stability (important for ECS)
