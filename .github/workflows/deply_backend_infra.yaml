@@ -7,7 +7,7 @@ on:
     paths:
       - 'backend-infra/**'
       - 'backend/**'
-
+      - '.github/workflows/deply_backend_infra.yaml'
 env:
   AWS_REGION: us-east-1
   STACK_NAME: backend-infrastructure
