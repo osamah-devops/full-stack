@@ -68,7 +68,7 @@ jobs:
           IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:${GITHUB_SHA}
 
           aws cloudformation deploy \
-            --template-file backend-infra/deployment.yaml \
+            --template-file backend-infrastructure/deployment.yaml \
             --stack-name $STACK_NAME \
             --capabilities CAPABILITY_NAMED_IAM \
             --parameter-overrides \
