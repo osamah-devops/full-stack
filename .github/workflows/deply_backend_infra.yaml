@@ -64,11 +64,12 @@ jobs:
       # Deploy CloudFormation
       #################################################
       - name: Deploy CloudFormation stack
+        working-directory: ./backend_infrastructure
         run: |
           IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:${GITHUB_SHA}
 
           aws cloudformation deploy \
-            --template-file backend-infrastructure/deployment.yaml \
+            --template-file deployment.yaml \
             --stack-name $STACK_NAME \
             --capabilities CAPABILITY_NAMED_IAM \
             --parameter-overrides \
