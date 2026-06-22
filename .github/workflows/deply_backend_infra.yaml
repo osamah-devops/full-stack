@@ -73,7 +73,7 @@ jobs:
             --stack-name $STACK_NAME \
             --capabilities CAPABILITY_NAMED_IAM \
             --parameter-overrides \
-              Environment=production \
+              Environment=development \
               ECRRepoURL=$IMAGE_URI \
               CertificateArn=arn:aws:acm:us-east-1:072754096540:certificate/162cfbd9-c998-46fd-a66e-bff328af88f0
 
