@@ -3,7 +3,6 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0-preview AS build
 WORKDIR /src
 
 # Copy project files first for layer caching
-COPY *.sln .
 COPY Backend/*.csproj ./Backend/
 RUN dotnet restore ./Backend/Backend.csproj
 
