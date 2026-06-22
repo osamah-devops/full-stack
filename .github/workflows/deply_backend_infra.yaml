@@ -95,3 +95,10 @@ jobs:
             --stack-name $STACK_NAME \
             --query "Stacks[0].StackStatus" \
             --output text
+      - name: Output ECS Service Name
+        run: |
+          ECS_SERVICE_NAME=$(aws cloudformation describe-stacks \
+            --stack-name $STACK_NAME \
+            --query "Stacks[0].Outputs[?OutputKey=='ECSServiceName'].OutputValue" \
+            --output text)
+          echo "ECS Service Name: $ECS_SERVICE_NAME"
