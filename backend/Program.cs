@@ -1,5 +1,16 @@
-var builder = WebApplication.CreateBuilder(args);
 
+var builder = WebApplication.CreateBuilder(args);
+// 1. Register the CORS services and define a named policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendApp",
+        policy =>
+        {
+            policy.WithOrigins("https://marmil.co") // Replace with your frontend domain
+                  .AllowAnyHeader("Content-Type", "Authorization","X-Requested-With","Accept","Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
+                  .AllowAnyMethod();
+        });
+});
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
