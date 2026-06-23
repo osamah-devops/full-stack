@@ -7,7 +7,7 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("https://marmil.co") // Replace with your frontend domain
-                  .AllowAnyHeader("Content-Type", "Authorization","X-Requested-With","Accept","Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
+                  .AllowAnyHeader()
                   .AllowAnyMethod();
         });
 });
