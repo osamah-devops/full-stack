@@ -1,0 +1,46 @@
+name: Deploy Frontend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend-infra/**'
+      - 'frontend/**'
+      - '.github/workflows/deploy_frontend.yaml'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      #################################################
+      # Checkout
+      #################################################
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      #################################################
+      # AWS Auth (OIDC)
+      #################################################
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            audience: sts.amazonaws.com
+            role-to-assume: arn:aws:iam::072754096540:role/aws-serverless-api
+            aws-region: us-east-1
+    
+      
+
+      #################################################
+      # Deploy CloudFormation
+      #################################################
+      - name: Deploy CloudFormation stack
+        run: |
+          aws cloudformation deploy \
+            --template-file frontend_infrastructure/deployment.yaml \
+            --stack-name frontend-infrastructure \
+            --capabilities CAPABILITY_NAMED_IAM \
+            --parameter-overrides \
+              Environment=development \
+              ECRRepoURL=${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY:${GITHUB_SHA} \
+              BackendDomainName=api.marmil.co \
+              CertificateArn=arn:aws:acm:us-east-1:072754096540:certificate/4b5e7d68-8d5e-49e2-a57f-0a1045800819
