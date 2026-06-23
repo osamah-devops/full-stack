@@ -1,3 +1,4 @@
+import * as React from "react";
 import axios from "axios";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
@@ -6,16 +7,32 @@ import Axios  from "axios";
 const baseURL = "https://api.marmil.co"; 
 Axios.defaults.baseURL = baseURL;
 export function Welcome() {
-  axios.get("/weatherforecast")
-    .then(response => {
-      console.log("Health check response:", response.data);
-    })
-    .catch(error => {
-      console.error("Health check error:", error);
-    });
+  const [weather, setWeather] = React.useState(null);
+  React.useEffect(() => {
+    axios.get("/weatherforecast")
+      .then(response => {
+        setWeather(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching weather forecast:", error);
+      });
+  }, []);
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
-      <h1>Hello Osamah</h1>
+      {weather ? (
+        <div>
+          <h2>Weather Forecast</h2>
+          <ul>
+            {weather.map((forecast: any, index: number) => (
+              <li key={index}>
+                {forecast.date}: {forecast.temperatureC}°C - {forecast.summary}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Loading weather forecast...</p>
+      )}
     </main>
   );
 }
