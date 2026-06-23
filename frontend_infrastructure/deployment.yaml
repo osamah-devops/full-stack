@@ -21,6 +21,10 @@ Parameters:
     AllowedValues:
       - development
       - production
+  AccountId:
+    Type: String
+    Description: AWS Account ID
+    Default: 072754096540
 
 Resources:
 
@@ -44,24 +48,36 @@ Resources:
         ErrorDocument: index.html
 
   FrontendBucketPolicy:
-    Type: AWS::S3::BucketPolicy
-    Properties:
-      Bucket: !Ref FrontendBucket
+  Type: AWS::S3::BucketPolicy
+  Properties:
+    Bucket: !Ref FrontendBucket
 
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Sid: PublicRead
-            Effect: Allow
-            Principal: "*"
-            Action:
-              - s3:GetObject
-            Resource:
-              - !Sub '${FrontendBucket.Arn}/*'
+    PolicyDocument:
+      Version: '2012-10-17'
+      Statement:
+        - Sid: AllowCloudFrontReadOnly
+          Effect: Allow
+          Principal:
+            Service: cloudfront.amazonaws.com
+          Action:
+            - s3:GetObject
+          Resource: !Sub '${FrontendBucket.Arn}/*'
+
+          Condition:
+            StringEquals:
+              AWS:SourceArn: !Sub 'arn:aws:cloudfront::${AccountId}:distribution/${FrontendDistribution}'
 
 #########################################################
 # CloudFront
 #########################################################
+  OriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: S3-OAC
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
 
   FrontendDistribution:
     Type: AWS::CloudFront::Distribution
@@ -80,6 +96,7 @@ Resources:
           - Id: FrontendOrigin
             DomainName: !GetAtt FrontendBucket.RegionalDomainName
             S3OriginConfig: {}
+            OriginAccessControlId: !Ref OriginAccessControl
 
         DefaultCacheBehavior:
           TargetOriginId: FrontendOrigin
