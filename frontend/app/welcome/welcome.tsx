@@ -1,7 +1,18 @@
+import axios from "axios";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
+import Axios  from "axios";
 
+const baseURL = "https://api.marmil.co"; 
+Axios.defaults.baseURL = baseURL;
 export function Welcome() {
+  axios.get("/weatherforecast")
+    .then(response => {
+      console.log("Health check response:", response.data);
+    })
+    .catch(error => {
+      console.error("Health check error:", error);
+    });
   return (
     <main className="flex items-center justify-center pt-16 pb-4">
       <h1>Hello Osamah</h1>
