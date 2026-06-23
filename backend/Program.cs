@@ -22,7 +22,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
+app.UseCors("AllowFrontendApp"); // 2. Use the named CORS policy
 app.UseHttpsRedirection();
 
 var summaries = new[]
