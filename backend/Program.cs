@@ -6,7 +6,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontendApp",
         policy =>
         {
-            policy.WithOrigins("https://marmil.co") // Replace with your frontend domain
+            policy.WithOrigins("https://marmil.co","https://www.marmil.co") // Replace with your frontend domain
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
