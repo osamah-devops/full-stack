@@ -48,24 +48,24 @@ Resources:
         ErrorDocument: index.html
 
   FrontendBucketPolicy:
-  Type: AWS::S3::BucketPolicy
-  Properties:
-    Bucket: !Ref FrontendBucket
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FrontendBucket
 
-    PolicyDocument:
-      Version: '2012-10-17'
-      Statement:
-        - Sid: AllowCloudFrontReadOnly
-          Effect: Allow
-          Principal:
-            Service: cloudfront.amazonaws.com
-          Action:
-            - s3:GetObject
-          Resource: !Sub '${FrontendBucket.Arn}/*'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowCloudFrontReadOnly
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action:
+              - s3:GetObject
+            Resource: !Sub '${FrontendBucket.Arn}/*'
 
-          Condition:
-            StringEquals:
-              AWS:SourceArn: !Sub 'arn:aws:cloudfront::${AccountId}:distribution/*'
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub 'arn:aws:cloudfront::${AccountId}:distribution/*'
 
 #########################################################
 # CloudFront
