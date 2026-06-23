@@ -21,14 +21,27 @@ export function Welcome() {
     <main className="flex items-center justify-center pt-16 pb-4">
       {weather ? (
         <div>
-          <h2>Weather Forecast</h2>
-          <ul>
-            {weather.map((forecast: any, index: number) => (
-              <li key={index}>
-                {forecast.date}: {forecast.temperatureC}°C - {forecast.summary}
-              </li>
-            ))}
-          </ul>
+          <h2 className="text-2xl font-bold mb-4">Weather Forecast</h2>
+          <table className="table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 px-4 py-2">Date</th>
+                <th className="border border-gray-300 px-4 py-2">Temperature (C)</th>
+                <th className="border border-gray-300 px-4 py-2">Temperature (F)</th>
+                <th className="border border-gray-300 px-4 py-2">Summary</th>
+              </tr>
+            </thead>
+            <tbody>
+              {weather.map((forecast, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-300 px-4 py-2">{forecast.date}</td>
+                  <td className="border border-gray-300 px-4 py-2">{forecast.temperatureC}</td>
+                  <td className="border border-gray-300 px-4 py-2">{forecast.temperatureF}</td>
+                  <td className="border border-gray-300 px-4 py-2">{forecast.summary}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         <p>Loading weather forecast...</p>
