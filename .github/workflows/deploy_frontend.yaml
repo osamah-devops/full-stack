@@ -53,9 +53,9 @@ jobs:
           aws s3 sync frontend/build/ s3://marmil-frontend-development/ --delete
       - name: Invalidate CloudFront cache
         run: |
-          DISTRIBUTION_ID=$(aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} --query "Stacks[0].Outputs[?OutputKey=='FrontendDistributionId'].OutputValue" --output text)
+          DISTRIBUTION_ID=$(aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} --query "Stacks[0].Outputs[?OutputKey=='CloudFrontDistributionId'].OutputValue" --output text --region us-east-1)
           aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
       - name: Output CloudFront URL
         run: |
-          DISTRIBUTION_DOMAIN=$(aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} --query "Stacks[0].Outputs[?OutputKey=='FrontendDistributionDomain'].OutputValue" --output text)
+          DISTRIBUTION_DOMAIN=$(aws cloudformation describe-stacks --stack-name ${{ env.STACK_NAME }} --query "Stacks[0].Outputs[?OutputKey=='CloudFrontDistributionDomain'].OutputValue" --output text --region us-east-1)
           echo "CloudFront URL: https://$DISTRIBUTION_DOMAIN"
